@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import HttpResponse, JsonResponse
 from .models import Task
 from .serializers import TaskSerializer
 from rest_framework.parsers import JSONParser
@@ -23,8 +23,7 @@ def get_single_task(request, id_task):
         task = Task.objects.get(pk=id_task)
     except:
         return HttpResponse("Não achei a task especificada!", status=404)
-    serializer = TaskSerializer(task)
-    return HttpResponse(serializer.data, status=201)
+    return JsonResponse(model_to_dict(task), status=201, safe=False)
 
 @api_view(["POST"])
 def post_task(request):
@@ -42,7 +41,7 @@ def delete_task(request, id_task):
         task = Task.objects.get(pk=id_task)
         task.delete()
     except:
-        raise Http404("Não achei a task especificada!")
+        return HttpResponse("Não achei a task especificada!", status=404)
     return HttpResponse("Deletado com sucesso!", status=201)
 
 @api_view(["PUT"])
