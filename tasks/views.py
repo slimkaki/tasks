@@ -20,7 +20,7 @@ def get_all_tasks(request):
 @api_view(["GET"])
 def get_single_task(request, id_task):
     try:
-        task = Task.objects.get()
+        task = Task.objects.get(pk=id_task)
         # serializer = TaskSerializer(task, many=True)
     except:
         raise Http404("Não achei a task especificada!")
