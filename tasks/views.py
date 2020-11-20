@@ -4,6 +4,8 @@ from .models import Task
 from .serializers import TaskSerializer
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import api_view
+from django.forms.models import model_to_dict
+import json
 
 # Create your views here.
 
@@ -50,11 +52,9 @@ def update_task(request, id_task):
         task = Task.objects.get(pk=id_task)
     except:
         return HttpResponse("Não achei a task especificada!", status=404)
-    serializer = TaskSerializer(task, data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return HttpResponse(serializer.data, status=201)
-    return HttpResponse(serializer.errors, status=400)
+    new_task = json.loads(request.body)
+    task.update(title=new_task["title"], pub_date=new_task["pub_date"], description=new_task["description"])
+    return HttpResponse(serializer.data, status=201)
 
 @api_view(["DELETE"])
 def delete_all_tasks(request):
