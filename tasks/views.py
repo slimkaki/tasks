@@ -10,21 +10,18 @@ from rest_framework.parsers import JSONParser
 # Create your views here.
 
 # seguindo o tutorial: https://www.askpython.com/django/django-listview
-
+@csrf_exempt
 def index(request):
-    return HttpResponse("Hello, world. You're at the tasks index.")
-
-def getTasks(request, format=None):
     if request.method == 'GET':
         all_tasks = Task.objects.values()
         serializer = TaskSerializer(all_tasks, many=True)
         return JsonResponse(serializer.data, safe=False)
 
-@csrf_exempt
-def postTask(request, format=None):
-    if request.method == 'POST':
-        # data=JSONParser().parse(request)
+    elif request.method == 'POST':
+        data=JSONParser().parse(request)
         serializer = TaskSerializer(data=request)
         if serializer.is_valid():
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors)
+
+    return HttpResponse("Hello, world. You're at the tasks index.")
