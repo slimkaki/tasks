@@ -45,7 +45,7 @@ def delete_task(request, id_task):
         raise Http404("Não achei a task especificada!")
     return HttpResponse("Deletado com sucesso!", status=201)
 
-@api_view(["PATCH"])
+@api_view(["PUT"])
 def update_task(request, id_task):
     try:
         task = Task.objects.get(pk=id_task)
@@ -54,3 +54,8 @@ def update_task(request, id_task):
         raise Http404("Não achei a task especificada!")
     return HttpResponse("Task alterada com sucesso!", status=201)
 
+@api_view(["DELETE"])
+def delete_all_tasks(request):
+    all_tasks = Task.objects.values()
+    all_tasks.delete()
+    return HttpResponse("Tudo deletado com sucesso!", status=201)
