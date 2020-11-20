@@ -22,8 +22,9 @@ def get_single_task(request, id_task):
     try:
         task = Task.objects.get(pk=id_task)
     except:
-        raise Http404("Não achei a task especificada!")
-    return JsonResponse(model_to_dict(task), safe=False)
+        return HttpResponse("Não achei a task especificada!", status=404)
+    serializer = TaskSerializer(task)
+    return HttpResponse(serializer.data, status=201)
 
 @api_view(["POST"])
 def post_task(request):
@@ -48,13 +49,19 @@ def delete_task(request, id_task):
 def update_task(request, id_task):
     try:
         task = Task.objects.get(pk=id_task)
-
     except:
-        raise Http404("Não achei a task especificada!")
-    return HttpResponse("Task alterada com sucesso!", status=201)
+        return HttpResponse("Não achei a task especificada!", status=404)
+    serializer = TaskSerializer(task, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return HttpResponse(serializer.data, status=201)
+    return HttpResponse(serializer.errors, status=400)
 
 @api_view(["DELETE"])
 def delete_all_tasks(request):
-    all_tasks = Task.objects.values()
-    all_tasks.delete()
-    return HttpResponse("Tudo deletado com sucesso!", status=201)
+    try:
+        task = Task.objects.get(pk=id_task)
+    except:
+        return HttpResponse("Não achei a task especificada!", status=404)
+    task.delete()
+    return HttpResponse(status=201)
