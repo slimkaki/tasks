@@ -23,8 +23,8 @@ def getTasks(request, format=None):
 @csrf_exempt
 def postTask(request, format=None):
     if request.method == 'POST':
-        data=JSONParser().parse(request)
-        serializer = TaskSerializer(data=data)
+        # data=JSONParser().parse(request)
+        serializer = TaskSerializer(data=request)
         if serializer.is_valid():
             return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
         return JsonResponse(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
