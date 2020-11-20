@@ -49,12 +49,12 @@ def delete_task(request, id_task):
 @api_view(["PUT"])
 def update_task(request, id_task):
     try:
-        task = Task.objects.get(pk=id_task)
+        task = Task.objects.filter(pk=id_task)
     except:
         return HttpResponse("Não achei a task especificada!", status=404)
     new_task = json.loads(request.body)
     task.update(title=new_task["title"], pub_date=new_task["pub_date"], description=new_task["description"])
-    return HttpResponse(serializer.data, status=201)
+    return HttpResponse("Task foi alterada com sucesso!", status=201)
 
 @api_view(["DELETE"])
 def delete_all_tasks(request):
