@@ -4,24 +4,26 @@ from .models import Task
 from .serializers import TaskSerializer
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-
-
+from rest_framework.decorators import api_view
 
 # Create your views here.
 
 # seguindo o tutorial: https://www.askpython.com/django/django-listview
-@csrf_exempt
+@api_view(["GET"])
 def index(request):
-    if request.method == 'GET':
-        all_tasks = Task.objects.values()
-        serializer = TaskSerializer(all_tasks, many=True)
-        return JsonResponse(serializer.data, safe=False)
+    return HttpResponse("Available endpoints:</br>/get</br>/post")
 
-    elif request.method == 'POST':
-        data=JSONParser().parse(request)
-        serializer = TaskSerializer(data=request)
-        if serializer.is_valid():
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors)
+@api_view(["GET"])
+def get_tasks(request):
+    all_tasks = Task.objects.values()
+    serializer = TaskSerializer(all_tasks, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
-    return HttpResponse("Hello, world. You're at the tasks index.")
+@api_view(["POST"])
+def post_task(request):
+    data=JSONParser().parse(request)
+    serializer = TaskSerializer(data=request)
+    if serializer.is_valid():
+        return JsonResponse(serializer.data)
+    return JsonResponse(serializer.errors)
+
