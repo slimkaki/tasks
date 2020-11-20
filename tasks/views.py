@@ -22,8 +22,9 @@ def get_tasks(request):
 @api_view(["POST"])
 def post_task(request):
     data=JSONParser().parse(request)
-    serializer = TaskSerializer(data=request)
+    serializer = TaskSerializer(data=data)
     if serializer.is_valid():
-        return JsonResponse(serializer.data)
-    return JsonResponse(serializer.errors)
+        serializer.save()
+        return JsonResponse(serializer.data, status=201)
+    return JsonResponse(serializer.errors, status=401)
 
