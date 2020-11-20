@@ -9,7 +9,7 @@ from rest_framework.decorators import api_view
 
 @api_view(["GET"])
 def index(request):
-    return HttpResponse("Available endpoints:</br>/get_all</br>/get_single/{id_task}</br>/post</br>/delete/{id_task}</br>/update/{id_task}")
+    return HttpResponse("Available endpoints:</br>/get_all</br>/get_single/{id_task}</br>/post</br>/delete/{id_task}</br>/update/{id_task}</br>/delete_all")
 
 @api_view(["GET"])
 def get_all_tasks(request):
@@ -21,10 +21,10 @@ def get_all_tasks(request):
 def get_single_task(request, id_task):
     try:
         task = Task.objects.get()
-        serializer = TaskSerializer(task, many=True)
+        # serializer = TaskSerializer(task, many=True)
     except:
         raise Http404("Não achei a task especificada!")
-    return JsonResponse(serializer.data, safe=False)
+    return JsonResponse(task)
 
 @api_view(["POST"])
 def post_task(request):
