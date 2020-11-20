@@ -26,5 +26,5 @@ def postTask(request, format=None):
         # data=JSONParser().parse(request)
         serializer = TaskSerializer(data=request)
         if serializer.is_valid():
-            return JsonResponse(serializer.data, status=status.HTTP_201_CREATED)
-        return JsonResponse(serializer.errors,status = status.HTTP_400_BAD_REQUEST)
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors)
