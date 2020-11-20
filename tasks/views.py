@@ -21,10 +21,9 @@ def get_all_tasks(request):
 def get_single_task(request, id_task):
     try:
         task = Task.objects.get(pk=id_task)
-        # serializer = TaskSerializer(task, many=True)
     except:
         raise Http404("Não achei a task especificada!")
-    return JsonResponse(task)
+    return JsonResponse(model_to_dict(task), safe=False)
 
 @api_view(["POST"])
 def post_task(request):
