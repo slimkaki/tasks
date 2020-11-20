@@ -60,7 +60,7 @@ def update_task(request, id_task):
 @api_view(["DELETE"])
 def delete_all_tasks(request):
     try:
-        Task.objects.all.delete()
+        Task.objects.all().delete()
     except:
         return HttpResponse("Não foi possível deletar todas as tasks!", status=400)
     return HttpResponse("Todas as tasks fooram deletadas com sucesso!", status=201)
