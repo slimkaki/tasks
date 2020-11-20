@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import Task
 from .serializers import TaskSerializer
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -18,6 +19,7 @@ def getTasks(request, format=None):
         serializer = TaskSerializer(all_tasks, many=True)
         return JsonResponse(serializer.data, safe=False)
 
+@csrf_exempt
 def postTask(request, format=None):
     if request.method == 'POST':
         data=JSONParser().parse(request)
