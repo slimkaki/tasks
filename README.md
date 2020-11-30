@@ -4,9 +4,9 @@ Projeto de um CRUD para tasks (ou tarefas), sendo uma API REST. Projetado em Dja
 
 ## Endpoints
 
-  /get_all</br>
-  /get_single/{id_task}</br>
-  /post</br>
-  /delete/{id_task}</br>
-  /update/{id_task}</br>
-  /delete_all</br>
+  - /get_all</br>
+  - /get_single/{id_task}</br>
+  - /post</br>
+  - /delete/{id_task}</br>
+  - /update/{id_task}</br>
+  - /delete_all</br>
